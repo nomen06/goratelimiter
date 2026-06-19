@@ -5,14 +5,18 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"sync"
 )
 
 type Client struct {
 	conn   net.Conn
 	reader *bufio.Reader
+	mu     sync.Mutex
 }
 
 func (c *Client) Do(args []string) (string, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	n := len(args)
 	input := "*"
 	input += strconv.Itoa(n)

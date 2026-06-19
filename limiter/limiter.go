@@ -59,7 +59,7 @@ func handler(limiter *Limiter) http.HandlerFunc {
 
 func main() {
 	client, _ := redis.Newclient("localhost:6379")
-	limiter := NewLimiter(client, 1000, 60)
+	limiter := NewLimiter(client, 10, 60)
 	http.HandleFunc("/", handler(limiter))
 	err := http.ListenAndServe(":8080", nil)
 	fmt.Println(err)
